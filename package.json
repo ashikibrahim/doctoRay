@@ -1,0 +1,29 @@
+{
+  "name": "heydoc",
+  "version": "1.0.0",
+  "description": "doctor appointment booking app",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon backend/server.js",
+    "server": "nodemon backend/server.js",
+    "client": "npm start --prefix frontend",
+    "dev": "concurrently \" npm run server \" \"npm run client\""
+  },
+  "author": "ibrahim ashik",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cloudinary": "^1.32.0",
+    "colors": "^1.4.0",
+    "concurrently": "^7.4.0",
+    "D": "^1.0.0",
+    "dotenv": "^16.0.2",
+    "express": "^4.18.1",
+    "express-async-handler": "^1.2.0",
+    "jsonwebtoken": "^8.5.1",
+    "moment": "^2.29.4",
+    "mongoose": "^6.6.0",
+    "multer": "^1.4.5-lts.1",
+    "nodemon": "^2.0.19"
+  }
+}

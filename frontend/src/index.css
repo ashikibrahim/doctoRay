@@ -1,0 +1,123 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap");
+* {
+  font-family: "Montserrat", sans-serif !important;
+}
+
+/* antd override */
+.ant-input {
+  border-radius: 2px !important ;
+  border: 1px solid rgba(128, 128, 128, 0.5) !important;
+  height: 40px !important ;
+}
+.ant-input:focus {
+  outline: none !important;
+  box-shadow: none !important;
+  border: 1px solid gray !important;
+}
+.ant-form label {
+  font-size: 16px !important;
+  color: black !important;
+}
+.ant-form-item {
+  margin: 10px 0;
+}
+
+/* common styling */
+.spinner-parent{
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ opacity: 0.5;
+ width:100%;
+ height: 100%;
+ background-color: white;
+ position: fixed;
+ top: 0;
+ left: 0;
+ z-index: 9999;
+}
+.spinner-border{
+  width: 5rem;
+  height: 5rem;
+  color: black !important;
+}
+
+.page-title{
+  font-size: 25px;
+  color: rgba(0, 0, 0, 0.815);
+  font-weight: bold;
+}
+.card-title {
+  font-size: 22px;
+  font-weight: bold;
+  color: rgba(0, 0, 0, 0.534);
+}
+.normal-text {
+  font-size: 1rem;
+}
+
+.card {
+  box-shadow: 0 0 5px black;
+  border-radius: 1 !important;
+  background-color: white;
+}
+.primary-button {
+  background-color: #14bef0 !important;
+  border-color: #14bef0 !important;
+  height: 40px !important;
+  width: 100% !important;
+  color: white !important;
+  font-size: 16px;
+  border-radius: 2 !important;
+}
+.primary-button-form {
+  background-color: #104150 !important;
+  border-color:  #104150 !important;
+  height: 40px !important;
+  width: 100% !important;
+  color: white !important;
+  font-size: 16px;
+  border-radius: 2 !important;
+  width: max-content !important;
+}
+
+.anchor{
+  color: black !important;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 16px !important;
+}
+
+
+/* authentication pages */
+.authentication{
+   height: 100vh;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   background-color: transparent;
+  
+  }
+  /* background image login page */
+  .outerdiv{
+    height: 100vh;
+    background-image: url(https://c1.wallpaperflare.com/preview/767/442/400/stethoscope-medical-health-doctor.jpg);
+    background-repeat: none;
+    background-size: cover;
+  }
+
+.authentication-form {
+  background-color: transparent;
+  width: 400px;
+}
+
+.authentication .card-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  background-color:#14bef0;
+  color: white;
+  max-width: max-content !important;
+  padding: 7px 15px;
+  margin-left: -40px;
+  border-bottom-left-radius: 10px;
+}
