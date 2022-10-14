@@ -1,11 +1,13 @@
-import Layout from "../../components/Layout";
-import { Table, Button } from "antd";
+
+import { Table } from "antd";
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { hideLoading, showLoading } from "../../redux/alertsSlice";
 import axios from "axios";
 import toast from "react-hot-toast";
 import Header from "../../components/Header";
+import Button from 'react-bootstrap/Button';
+import moment from "moment"
 
 function DoctorList() {
   const [doctors, setDoctors] = useState([]);
@@ -71,6 +73,7 @@ function DoctorList() {
     {
       title: "Created At",
       dataIndex: "createdAt",
+      render: (record , text) => moment(record.createdAt).format("DD-MM-YYYY"),
     },
     {
       title: "status",
@@ -82,21 +85,38 @@ function DoctorList() {
       render: (text, record) => (
         <div className="d-flex">
           {record.status === "pending" && (
-            <Button
-              success
-              onClick={() => changeDoctorStatus(record, "approved")}
-            >
-              {/* {" "} */}
+             <Button
+             variant="success"
+             onClick={() => changeDoctorStatus(record, "Approved")}
+             >
               Approve
-            </Button>
+             </Button>
           )}
-          {record.status === "approved" && (
+          {record.status === "Approved" && (
             <Button
-              danger
+            variant="danger"
               onClick={() => changeDoctorStatus(record, "blocked")}
             >
               {/* {" "} */}
               Block
+            </Button>
+          )}
+          {record.status === "blocked" && (
+            <Button
+            variant="primary"
+              onClick={() => changeDoctorStatus(record, "unblocked")}
+            >
+              {/* {" "} */}
+              unblock
+            </Button>
+          )}
+          {record.status === "unblocked" && (
+            <Button
+            variant="success"
+              onClick={() => changeDoctorStatus(record, "Approved")}
+            >
+              {/* {" "} */}
+              Approve
             </Button>
           )}
         </div>

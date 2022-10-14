@@ -19,6 +19,14 @@ const userSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    isBlock: {
+      type: String,
+      default: "unBlock", 
+  },
+  isverifed: {
+      type: Boolean,
+      default: false,
+  },
     isAdmin: {
       type: Boolean,
       default: false,

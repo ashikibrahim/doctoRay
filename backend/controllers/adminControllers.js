@@ -80,8 +80,33 @@ const changeDoctorStatus = async (req, res) => {
   }
 };
 
+// post
+// block/unblock user
+const changeUserStatus = async (req, res) => {
+  try {
+    const user = await User.findByIdAndUpdate({_id:req.body.userid},{ isBlock:req.body.status})
+
+    res.status(200).json({
+      message: ` ${user.name } ${req.body.status}` , 
+      success: true,
+    });
+  } catch (error) {
+    console.log(error,"change user status catch");
+    res.status(400).send({
+      message: "user not found",
+      success: false,
+      error,
+    });
+  }
+};
+
+
+
+
+
 module.exports = {
   getAllDoctors,
   getAllUsers,
   changeDoctorStatus,
+  changeUserStatus,
 };

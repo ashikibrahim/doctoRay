@@ -5,6 +5,7 @@ const User = require("../models/userModel");
 const Doctor = require("../models/doctorModel");
 const cloudinary = require('../utils/cloudinary')
 const { response } = require("express");
+const moment = require("moment");
 
 //@desc Register new user
 // @route POST /api/users
@@ -87,42 +88,6 @@ const loginUser = async (req, res) => {
 // @route   POST /api/users/login
 // @access  Public
 
-// const loginUser = asyncHandler(async (req, res) => {
-//   const { email, password } = req.body;
-
-//   // Check for user email
-//   const user = await User.findOne({ email });
-
-//   if (user && (await bcrypt.compare(password, user.password))) {
-//     console.log(user.unseenNotifications,"login unseennotiooooooooooooooooooo");
-//     res.json({
-//       _id: user.id,
-//       name: user.name,
-//       email: user.email,
-//       isAdmin: user.isAdmin,
-//       unseenNotifications: user.unseenNotifications,
-//       seenNotifications: user.seenNotifications,
-//       token: generateToken(user._id),
-//     });
-//   } else {
-//     res.status(400);
-//     throw new Error("Invalid credentials");
-//   }
-// });
-
-// // @desc    Get user data
-// // @route   GET /api/users/me
-// // @access  Private
-// const getMe = asyncHandler(async (req, res) => {
-//   res.status(200).json(req.user);
-// });
-
-//Generate JWT
-// const generateToken = (id) => {
-//   return jwt.sign({ id }, process.env.JWT_SECRET, {
-//     expiresIn: "30d",
-//   });
-// };
 
 //@desc get users
 // @route POST /api/users/get-user-info-by-id
@@ -158,7 +123,6 @@ const applyDoctorAccount = async (req, res) => {
   const userid=req.user._id;
    console.log(req.user._id,"uuuuuuuuuuuuuuuuuuuuu");
   try {
-   
     const result = await cloudinary.uploader.upload(req.file.path)
     
 
@@ -172,8 +136,8 @@ const applyDoctorAccount = async (req, res) => {
       experience:req.body.experience,
       feePerConsultation:req.body.feePerConsultation,
       image:result.url,
-      timingsFrom:req.body.timingsFrom,
-      timingsTo:req.body.timingsTo,
+      start:req.body.start,
+      end:req.body.end,
       userId:userid,
     });
   
@@ -390,4 +354,41 @@ module.exports = {
 //       .status(500)
 //       .send({ message: "error logging in", Success: false, error });
 //   }
+// };
+
+// const loginUser = asyncHandler(async (req, res) => {
+//   const { email, password } = req.body;
+
+//   // Check for user email
+//   const user = await User.findOne({ email });
+
+//   if (user && (await bcrypt.compare(password, user.password))) {
+//     console.log(user.unseenNotifications,"login unseennotiooooooooooooooooooo");
+//     res.json({
+//       _id: user.id,
+//       name: user.name,
+//       email: user.email,
+//       isAdmin: user.isAdmin,
+//       unseenNotifications: user.unseenNotifications,
+//       seenNotifications: user.seenNotifications,
+//       token: generateToken(user._id),
+//     });
+//   } else {
+//     res.status(400);
+//     throw new Error("Invalid credentials");
+//   }
+// });
+
+// // @desc    Get user data
+// // @route   GET /api/users/me
+// // @access  Private
+// const getMe = asyncHandler(async (req, res) => {
+//   res.status(200).json(req.user);
+// });
+
+//Generate JWT
+// const generateToken = (id) => {
+//   return jwt.sign({ id }, process.env.JWT_SECRET, {
+//     expiresIn: "30d",
+//   });
 // };

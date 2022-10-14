@@ -15,11 +15,11 @@ import VaccinesIcon from "@mui/icons-material/Vaccines";
 import DrawerComp from "./DrawerComp";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { logout, reset } from "../redux/auth/authSlice";
+// import { logout, reset } from "../redux/auth/authSlice";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import { showLoading,hideLoading } from "../redux/alertsSlice";
 import axios from "axios";
-import { setUser } from "../redux/auth/authSlice";
+import { setUser } from "../redux/userSlice";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
 
@@ -60,11 +60,21 @@ const Header = () => {
         // console.log(userData,"lkaedjfkladsjhlkdjsfakdsjfh54hdr");
         dispatch(hideLoading());
         if(response.data.success){
-          setUserInfo(response.data.data);
-          toast.success(response.data.message);
-          // dispatch(setUser(user))
-          // console.log(setUser(),"helloo setuser 77777777777777777777777777777");
+          // setUserInfo(response.data.data);
+          const userData=response.data.data;
+
+          if(userData.isBlock === "block"){
+            localStorage.clear();
+            toast.error("your account has been  blocked");
+          }else{
+            dispatch(setUser(response.data.data))
+          }
+
+          // toast.success(response.data.message);
+         
           console.log(response.data.data,"response1111111111111");
+          console.log(user,"helloo setuser 77777777777777777777777777777");
+        
           // console.log(user1,"hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii user1");
         }else{
           toast.error(response.data.message);
@@ -82,11 +92,11 @@ const Header = () => {
   }, [userInfo]);
 
   const onLogout = () => {
-    dispatch(logout());
-    dispatch(reset());
-    // dispatch(setUser(null))
-    setUserInfo(null);
-    // localStorage.clear();
+    // dispatch(logout());
+    // dispatch(reset());
+    dispatch(setUser(null))
+    // setUserInfo(null);
+    localStorage.clear();
     navigate("/");
   };
 
@@ -130,7 +140,7 @@ const Header = () => {
     },
     {
       name: "Profile",
-      path: `/doctor/profile/${userInfo?._id}`,
+      path: `/doctor/profile/${user?._id}`,
       icon: "ri-user-line",
     },
   ];
@@ -193,7 +203,7 @@ const Header = () => {
                
               </Tabs>
 
-              {userInfo ? (
+              {user? (
                 <>
                 <Button
                   sx={{ marginLeft: "auto", marginRight: "10px" }}

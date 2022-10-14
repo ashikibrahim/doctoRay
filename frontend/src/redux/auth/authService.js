@@ -76,10 +76,10 @@
 //   };
 
 //Logout user
-const logout = () => {
-  localStorage.removeItem("user");
-  localStorage.removeItem("token");
-};
+// const logout = () => {
+//   localStorage.removeItem("user");
+//   localStorage.removeItem("token");
+// };
 
 // const authService = {
 //   register,

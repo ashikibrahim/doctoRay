@@ -17,15 +17,19 @@ function Login() {
   const onFinish = async (values) => {
     try {
       dispatch(showLoading());
+      console.log(values,"values login page");
       const response = await axios.post("/api/users/login", values);
+
       dispatch(hideLoading());
-      if (response.data.success) {
+      console.log(response,"response login9999999999999999999");
+      console.log(response.data.data,"data.data login88888888888888888");
+      if (response.data.Success) {
         toast.success(response.data.message);
-        dispatch(setUser(response.data.data))
         localStorage.setItem("token", response.data.data);
+        // dispatch(setUser(response.data.data))
         navigate("/");
       } else {
-        toast.error(response.data.message);
+        toast.error("login error");
       }
     } catch (error) {
       dispatch(hideLoading());
@@ -38,7 +42,7 @@ function Login() {
    <div className="outerdiv">
     <div className="authentication">
     <div className="authentication-form card p-3">
-        <h1 className="card-title">Welcome Back</h1>
+        <h1 className="card-title">doctoRay</h1>
         <Form layout="vertical" onFinish={onFinish}>
           <Form.Item label="Email" name="email">
             <Input placeholder="Email" />

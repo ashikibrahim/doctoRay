@@ -103,7 +103,7 @@
     height: 100vh;
     background-image: url(https://c1.wallpaperflare.com/preview/767/442/400/stethoscope-medical-health-doctor.jpg);
     background-repeat: none;
-    background-size: cover;
+    background-size:100% 100%;
   }
 
 .authentication-form {

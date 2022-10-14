@@ -7,13 +7,13 @@ import { showLoading, hideLoading } from "../redux/alertsSlice";
 import { useEffect } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { setUser } from "../redux/auth/authSlice";
+import { setUser } from "../redux/userSlice";
 import Header from "../components/Header";
 
 function Notifications() {
   const [markAsSeen, setMarkAsSeen] = useState();
 
-  const { user } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.user);
   console.log(user, "NNNNNNNNNNNNNNNNNNNNNN");
 
   const navigate = useNavigate();

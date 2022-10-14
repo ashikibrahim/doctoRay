@@ -12,8 +12,10 @@ function Home () {
     <>
 
 <Header/>
-    <h1>homepage</h1>
-
+<div style={{ paddingTop: "40px" }}>
+        <h1 className="page-title mt-5"> homepage</h1>
+        <hr />
+  </div>
   </>
   );
 }

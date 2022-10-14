@@ -28,10 +28,10 @@ const doctorSchema = mongoose.Schema(
     feePerConsultation: {
       type: Number,
     },
-    timingsFrom: {
+    start: {
       type:String,
     },
-    timingsTo: {
+    end: {
       type: String,
     },
     status: {
