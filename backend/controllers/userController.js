@@ -63,11 +63,13 @@ const loginUser = async (req, res) => {
     //if user email nexists compare password req.body.password(normal password) and user.password=encrypted pass.
 
     const isMatch = await bcrypt.compare(req.body.password, user.password);
+
     if (!isMatch) {
       return res
         .status(200)
         .send({ message: "password incorrect", Success: false });
     } else {
+      if(user.isBlock === "unBlock"){
       // if password matches generate token
       const token = jwt.sign({ id:user._id}, process.env.JWT_SECRET, {
         expiresIn: "30d",
@@ -76,7 +78,12 @@ const loginUser = async (req, res) => {
         .status(200)
         // token passed  to frontend as data:
         .send({ message: "login successful", Success: true, data: token });
-    } 
+    } else{
+      res
+      .status(403)
+      .send({ message: "your account has been blocked", Success: false });
+    }
+  }
   } catch (error) {
     console.log(error);
     res
@@ -124,7 +131,8 @@ const applyDoctorAccount = async (req, res) => {
    console.log(req.user._id,"uuuuuuuuuuuuuuuuuuuuu");
   try {
     const result = await cloudinary.uploader.upload(req.file.path)
-    
+    const starttime = moment(req.body.start, ["HH:mm"]).format("hh:mm a");
+    const endtime = moment(req.body.end, ["HH:mm"]).format("hh:mm a");
 
     console.log(result,"backend result111111111");
     const newdoctor = new Doctor({
@@ -136,8 +144,8 @@ const applyDoctorAccount = async (req, res) => {
       experience:req.body.experience,
       feePerConsultation:req.body.feePerConsultation,
       image:result.url,
-      start:req.body.start,
-      end:req.body.end,
+      start:starttime,
+      end:endtime,
       userId:userid,
     });
   
@@ -185,7 +193,6 @@ const applyDoctorAccount = async (req, res) => {
 const markSeenNotifications = async (req, res) => {
   
   try {
-    console.log("marojskskssdf",req.body);
     const user = await User.findOne({ _id: req.body.userId });
     const unseenNotifications = user.unseenNotifications;
     const seenNotifications = user.seenNotifications;
@@ -210,7 +217,7 @@ const markSeenNotifications = async (req, res) => {
 };
 
 
-// deleteAllNotificatons
+// getAllNotificatons
 // post method
 const unSeenNotifications = async (req, res) => {
   try {
@@ -230,10 +237,6 @@ const unSeenNotifications = async (req, res) => {
     });
   }
 };
-
-
-
-
 
 
 // deleteAllNotificatons
@@ -261,6 +264,25 @@ const deleteAllNotifications = async (req, res) => {
   }
 };
 
+//@desc get users
+// @route POST /api/users/get-user-info-by-id
+// @access Public
+const getApprovedDoctors = async (req, res) => {
+  try {
+    const doctors =await Doctor.find({status:"Approved"})
+    res.status(200)
+        .send({ 
+          message: "doctor fetched successfully",
+           success: true,
+           data:doctors,
+          });
+    }catch (error) {
+    return res.status(401).send({
+      message: "error in fetching",
+      success: false,
+    });
+  }
+};
 
 
 module.exports = {
@@ -270,7 +292,8 @@ module.exports = {
   applyDoctorAccount,
   markSeenNotifications,
   deleteAllNotifications,
-  unSeenNotifications
+  unSeenNotifications,
+  getApprovedDoctors,
 };
 
 

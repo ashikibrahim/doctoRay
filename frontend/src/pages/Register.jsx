@@ -34,9 +34,10 @@ function Register() {
   };
 
   return (
+    <div className="outerdiv-reg">
     <div className="authentication">
     <div className="authentication-form card p-3">
-      <h1 className="card-title">Nice To Meet U</h1>
+      <h1 className="card-title">doctoRay</h1>
       <Form layout="vertical" onFinish={onFinish}>
         <Form.Item label="Name" name="name">
           <Input placeholder="Name" />
@@ -59,6 +60,7 @@ function Register() {
           </Link>
         </Form>
       </div>
+    </div>
     </div>
   );
 };

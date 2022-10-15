@@ -58,7 +58,7 @@ const changeDoctorStatus = async (req, res) => {
       message: `your doctor account has been ${status}`,
       onClickPath: "/notifications",
     });
-    user.isDoctor = status === "approved" ? true: false;
+    user.isDoctor = status === "Approved" ? true: false;
     console.log(user.isDoctor);
     console.log(user.isDoctor,"isdoctor ??????");
     await user.save();
@@ -87,7 +87,7 @@ const changeUserStatus = async (req, res) => {
     const user = await User.findByIdAndUpdate({_id:req.body.userid},{ isBlock:req.body.status})
 
     res.status(200).json({
-      message: ` ${user.name } ${req.body.status}` , 
+      message: ` ${user.name } "your account is" ${req.body.status}` , 
       success: true,
     });
   } catch (error) {

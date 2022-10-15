@@ -71,6 +71,12 @@ function DoctorList() {
       dataIndex: "phoneNumber",
     },
     {
+      title: "Image",
+      dataIndex: "image",
+
+      render: (text, record) => <img alt={record.image} src={record.image} style={{ width: "150px", height: "70px", objectFit: "contain" }} />
+  },
+    {
       title: "Created At",
       dataIndex: "createdAt",
       render: (record , text) => moment(record.createdAt).format("DD-MM-YYYY"),

@@ -93,7 +93,7 @@ const changeUserStatus = async (record,status) =>  {
           {record.isBlock === "block" && (
           <h1
               className="anchor"
-              onClick={()=> changeUserStatus(record, "block")}
+              onClick={()=> changeUserStatus(record, "unBlock")}
           >
             <Button variant="success">Block</Button>
     </h1>

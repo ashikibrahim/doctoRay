@@ -3,6 +3,16 @@
   font-family: "Montserrat", sans-serif !important;
 }
 
+.mainhome{
+  min-height: 100vh;
+  background-color: rgb(255, 238, 252);
+}
+.outerdiv-reg{
+  height: 100vh;
+  background-image: url(https://images.unsplash.com/photo-1620648378564-5aa573ec8076?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=950&q=80);
+  background-repeat: none;
+  background-size:100% 100%;
+}
 /* antd override */
 .ant-input {
   border-radius: 2px !important ;

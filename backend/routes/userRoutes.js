@@ -7,6 +7,7 @@ const {registerUser,
     markSeenNotifications,
     deleteAllNotifications,
     unSeenNotifications,
+    getApprovedDoctors,
     } = require('../controllers/userController')
 const {protect} = require('../middleware/authMiddleware')
 const upload=require("../utils/multer")
@@ -19,4 +20,5 @@ router.post('/apply-doctor-account',protect,upload.single('image'),applyDoctorAc
 router.post('/mark-all-notifications-as-seen',protect,markSeenNotifications)
 router.post('/unseen-notifications',protect,unSeenNotifications)
 router.post('/delete-all-notifications',protect,deleteAllNotifications)
+router.get('/get-all-approved-doctors',getApprovedDoctors)
 module.exports = router
