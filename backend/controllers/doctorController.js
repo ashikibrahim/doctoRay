@@ -4,35 +4,61 @@ const User = require("../models/userModel");
 const Doctor = require("../models/doctorModel");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
+const cloudinary = require("../utils/cloudinary");
+const moment = require("moment");
 
-const doctorData = async(req,res)=>{
-    try {
-        const doctor=await Doctor.findOne({userId: req.body.userId})
-        res.status(200).json({
-            message: "Doctor info fetched successfully",
-           success: true,
-           data:doctor,
-        })
-    } catch (error) {
-        res.status(500).send({ message:"invalid doctor",success:false,error}) 
-    }
-}
+const doctorData = async (req, res) => {
+  try {
+    const doctor = await Doctor.findOne({ userId: req.body.userId });
+    res.status(200).json({
+      message: "Doctor info fetched successfully",
+      success: true,
+      data: doctor,
+    });
+  } catch (error) {
+    res.status(500).send({ message: "invalid doctor", success: false, error });
+  }
+};
 
+const updateDoctorInfo = async(req, res) => {
+    //  console.log(req.user._id,"wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww");
+    console.log(req.body,"888888888888888888888");
+  try {
+    console.log(req.body,"mmmmmmmmmmmmmmmmmmmmmmmmmmmmm");
+    // const result = await cloudinary.uploader.upload(req.file.path);
+    const starttime = moment(req.body.start, ["HH:mm"]).format("hh:mm a");
+    const endtime = moment(req.body.end, ["HH:mm"]).format("hh:mm a");
+    const userid=req.user._id;
+    // const doctor = await Doctor.findOne({userId:req.body.userId})
+    // console.log(doctor,"update doct 999999999999999999");
+    const updatedDoctor = await Doctor.findByIdAndUpdate(
+      { userId:userid},
+      {
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        phoneNumber: req.body.phoneNumber,
+        address: req.body.address,
+        specialization: req.body.specialization,
+        experience: req.body.experience,
+        feePerConsultation: req.body.feePerConsultation,
+        image: result.url,
+        start: starttime,
+        end: endtime,
+        userId: userid,
+      }
+    );
+    res.status(200).json({
+      message: "Doctor info updated successfully",
+      success: true,
+      data: updatedDoctor,
+    });
+  } catch (error) {
+    res.status(500).send({ message: "invalid doctor", success: false, error });
+    // console.log(error,"error updating ....55555555555555555555555555555");
+  }
+};
 
-const updateDoctorInfo = async(req,res)=>{
-    try {
-       
-        res.status(200).json({
-            message: "Doctor info fetched successfully",
-           success: true,
-           data:doctor,
-        })
-    } catch (error) {
-        res.status(500).send({ message:"invalid doctor",success:false,error}) 
-    }
-}
-
-module.exports ={
-    doctorData,
-    updateDoctorInfo,
-}
+module.exports = {
+  doctorData,
+  updateDoctorInfo,
+};

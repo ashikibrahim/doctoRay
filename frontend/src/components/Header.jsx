@@ -40,7 +40,7 @@ const Header = () => {
   const { user } = useSelector((state) => state.user);
 
   
-  console.log(user,"header user BBBBBBBBBBB");
+  // console.log(user,"header user BBBBBBBBBBB");
 
   const getUser=async()=>{
     try {
