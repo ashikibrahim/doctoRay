@@ -12,7 +12,7 @@ import { showLoading, hideLoading } from "../redux/alertsSlice";
 function Home() {
   const [doctors, setDoctors] = useState([]);
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user);
+  const {user} = useSelector((state) => state.user);
 
   const getData = async () => {
     try {
@@ -36,11 +36,11 @@ function Home() {
     <>
       <div className="mainhome">
       <Header />
-        {user?.isAdmin ? (
+        {user?.isAdmin? (
           <Header />
-        ) : user?.isDoctor ? (
+        ) : user?.isDoctor? (
           <Header />
-        ) : (
+        ) : 
           <>
             <Header />
             <div style={{ paddingTop: "65px" }}>
@@ -59,7 +59,7 @@ function Home() {
               </Row>
             </div>
           </>
-        )}
+        }
       </div>
     </>
   );

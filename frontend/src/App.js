@@ -15,6 +15,7 @@ import Notifications from "./pages/Notifications";
 import UserList from "./pages/Admin/UserList";
 import DoctorList from "./pages/Admin/DoctorList";
 import DoctorProfile from "./pages/Doctor/Profile";
+import BookAppointment from "./pages/User/BookAppointment"
 
 function App() {
   const { loading } = useSelector((state) => state.alerts);
@@ -50,6 +51,14 @@ function App() {
                 </ProtectedRoutes>
               }
             />
+            <Route
+          path="/book-appointment/:doctorId"
+          element={
+            <ProtectedRoutes>
+              <BookAppointment />
+            </ProtectedRoutes>
+          }
+        />
             <Route path="/notifications" element={<Notifications />} />
             <Route path="/admin/userslist" element={<UserList />} />
             <Route path="/admin/doctorslist" element={<DoctorList />} />

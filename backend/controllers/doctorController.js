@@ -21,7 +21,6 @@ const doctorData = async (req, res) => {
 };
 
 const updateDoctorInfo = async(req, res) => {
-    //  console.log(req.user._id,"wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww");
     console.log(req.body,"888888888888888888888");
   try {
     console.log(req.body,"mmmmmmmmmmmmmmmmmmmmmmmmmmmmm");
@@ -29,6 +28,7 @@ const updateDoctorInfo = async(req, res) => {
     const starttime = moment(req.body.start, ["HH:mm"]).format("hh:mm a");
     const endtime = moment(req.body.end, ["HH:mm"]).format("hh:mm a");
     const userid=req.user._id;
+      console.log(userid,"wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww");
     // const doctor = await Doctor.findOne({userId:req.body.userId})
     // console.log(doctor,"update doct 999999999999999999");
     const updatedDoctor = await Doctor.findByIdAndUpdate(
@@ -58,7 +58,24 @@ const updateDoctorInfo = async(req, res) => {
   }
 };
 
+const getDoctorById = async (req, res) => {
+  console.log(req.body.doctorId ,"body.docid0000000000000000000000000");
+  try {
+    const doctor = await Doctor.findOne({_id: req.body.doctorId });
+    console.log(doctor,"huuuuuuuuuuusjsuuuuuuuuuuuuuuuuuuuuuuu");
+    res.status(200).json({
+      message: "Doctor info fetched successfully",
+      success: true,
+      data: doctor,
+    });
+  } catch (error) {
+    res.status(500).send({ message: "invalid doctor", success: false, error });
+  }
+};
+
+
 module.exports = {
   doctorData,
   updateDoctorInfo,
+  getDoctorById,
 };

@@ -114,6 +114,7 @@ function Notifications() {
   return (
     <>
       <Header />
+      <div className="container">
       <div style={{ paddingTop: "40px" }}>
         <h1 className="page-title mt-5">Notifications</h1>
         <hr />
@@ -150,6 +151,7 @@ function Notifications() {
             ))}
           </Tabs.TabPane>
         </Tabs>
+      </div>
       </div>
     </>
   );

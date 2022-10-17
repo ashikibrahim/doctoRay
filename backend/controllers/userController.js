@@ -3,7 +3,7 @@ const bcrypt = require("bcryptjs");
 const asyncHandler = require("express-async-handler");
 const User = require("../models/userModel");
 const Doctor = require("../models/doctorModel");
-const cloudinary = require('../utils/cloudinary')
+const cloudinary = require("../utils/cloudinary");
 const { response } = require("express");
 const moment = require("moment");
 
@@ -12,20 +12,18 @@ const moment = require("moment");
 // @access Public
 // register user
 const registerUser = asyncHandler(async (req, res) => {
-  const {name,email,password} = req.body
+  const { name, email, password } = req.body;
 
-  if(!name || !email || !password){
-    res.status(400)
-    throw new Error('please add all fields')
-}
-    console.log(req.body);
+  if (!name || !email || !password) {
+    res.status(400);
+    throw new Error("please add all fields");
+  }
+  console.log(req.body);
   try {
     // check if user already exists
     const userExists = await User.findOne({ email: req.body.email });
     if (userExists) {
-      return res
-        .status(400)
-        .send({ message: "User already exists"});
+      return res.status(400).send({ message: "User already exists" });
     }
 
     // hash password
@@ -39,7 +37,7 @@ const registerUser = asyncHandler(async (req, res) => {
     await newuser.save();
     return res
       .status(200)
-      .send({ message: "user created successfully", success: true });
+      .send({ message: "User created successfully", success: true });
   } catch (error) {
     console.log(error);
     res
@@ -69,21 +67,21 @@ const loginUser = async (req, res) => {
         .status(200)
         .send({ message: "password incorrect", Success: false });
     } else {
-      if(user.isBlock === "unBlock"){
-      // if password matches generate token
-      const token = jwt.sign({ id:user._id}, process.env.JWT_SECRET, {
-        expiresIn: "30d",
-      });
-      res
-        .status(200)
-        // token passed  to frontend as data:
-        .send({ message: "login successful", Success: true, data: token });
-    } else{
-      res
-      .status(403)
-      .send({ message: "your account has been blocked", Success: false });
+      if (user.isBlock === "unBlock") {
+        // if password matches generate token
+        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+          expiresIn: "30d",
+        });
+        res
+          .status(200)
+          // token passed  to frontend as data:
+          .send({ message: "login successful", Success: true, data: token });
+      } else {
+        res
+          .status(403)
+          .send({ message: "your account has been blocked", Success: false });
+      }
     }
-  }
   } catch (error) {
     console.log(error);
     res
@@ -95,14 +93,13 @@ const loginUser = async (req, res) => {
 // @route   POST /api/users/login
 // @access  Public
 
-
 //@desc get users
 // @route POST /api/users/get-user-info-by-id
 // @access Public
 const getuserinfo = async (req, res) => {
-  const userid=req.user._id;
+  const userid = req.user._id;
   try {
-    const user = await User.findOne({ _id:userid });
+    const user = await User.findOne({ _id: userid });
     if (!user) {
       return res
         .status(200)
@@ -127,34 +124,34 @@ const getuserinfo = async (req, res) => {
 // @access Private
 const applyDoctorAccount = async (req, res) => {
   //user id is taken from protect middleware
-  const userid=req.user._id;
-   console.log(req.user._id,"uuuuuuuuuuuuuuuuuuuuu");
+  const userid = req.user._id;
+  console.log(req.user._id, "uuuuuuuuuuuuuuuuuuuuu");
   try {
-    const result = await cloudinary.uploader.upload(req.file.path)
+    const result = await cloudinary.uploader.upload(req.file.path);
     const starttime = moment(req.body.start, ["HH:mm"]).format("hh:mm a");
     const endtime = moment(req.body.end, ["HH:mm"]).format("hh:mm a");
 
-    console.log(result,"backend result111111111");
+    console.log(result, "backend result111111111");
     const newdoctor = new Doctor({
-      firstName:req.body.firstName,
-      lastName:req.body.lastName,
-      phoneNumber:req.body.phoneNumber,
-      address:req.body.address,
-     specialization:req.body.specialization,
-      experience:req.body.experience,
-      feePerConsultation:req.body.feePerConsultation,
-      image:result.url,
-      start:starttime,
-      end:endtime,
-      userId:userid,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      phoneNumber: req.body.phoneNumber,
+      address: req.body.address,
+      specialization: req.body.specialization,
+      experience: req.body.experience,
+      feePerConsultation: req.body.feePerConsultation,
+      image: result.url,
+      start: starttime,
+      end: endtime,
+      userId: userid,
     });
-  
+
     await newdoctor.save();
     // res.status(201).json({
     //   newdoctor,
     //   success:true,
     // })
-    console.log(newdoctor,"new doctor save");
+    console.log(newdoctor, "new doctor save");
     const adminUser = await User.findOne({ isAdmin: true });
     // explanation  vd22 creates new entry takes fromdata and spreads to
     // new doctor fn and save to Doctor schema and finds admin from User schema
@@ -171,13 +168,12 @@ const applyDoctorAccount = async (req, res) => {
       onClickPath: "/admin/doctorlist",
     });
     await User.findByIdAndUpdate(adminUser._id, { unseenNotifications });
-    console.log(unseenNotifications,"app doc unseenZZZZZZZZZZZZZZZ");
+    console.log(unseenNotifications, "app doc unseenZZZZZZZZZZZZZZZ");
 
     res.status(200).json({
       newdoctor,
       success: true,
       message: "Doctor account applied successfully",
-      
     });
   } catch (error) {
     res.status(500).json({
@@ -191,7 +187,6 @@ const applyDoctorAccount = async (req, res) => {
 //markSeenNotifications
 //post mark-all-notifications-as-seen
 const markSeenNotifications = async (req, res) => {
-  
   try {
     const user = await User.findOne({ _id: req.body.userId });
     const unseenNotifications = user.unseenNotifications;
@@ -216,19 +211,18 @@ const markSeenNotifications = async (req, res) => {
   }
 };
 
-
 // getAllNotificatons
 // post method
 const unSeenNotifications = async (req, res) => {
   try {
-    const user=await User.findOne({_id: req.body.userId});
+    const user = await User.findOne({ _id: req.body.userId });
     user.password = undefined;
     // const unseenNotifications = user.unseenNotifications;
     res.status(200).send({
       success: true,
       message: "your notifications",
       data: user,
-    })
+    });
   } catch (error) {
     return res.status(500).json({
       message: "Error unseennotifications",
@@ -237,7 +231,6 @@ const unSeenNotifications = async (req, res) => {
     });
   }
 };
-
 
 // deleteAllNotificatons
 // post method
@@ -269,21 +262,19 @@ const deleteAllNotifications = async (req, res) => {
 // @access Public
 const getApprovedDoctors = async (req, res) => {
   try {
-    const doctors =await Doctor.find({status:"Approved"})
-    res.status(200)
-        .send({ 
-          message: "doctor fetched successfully",
-           success: true,
-           data:doctors,
-          });
-    }catch (error) {
+    const doctors = await Doctor.find({ status: "Approved" });
+    res.status(200).send({
+      message: "doctor fetched successfully",
+      success: true,
+      data: doctors,
+    });
+  } catch (error) {
     return res.status(401).send({
       message: "error in fetching",
       success: false,
     });
   }
 };
-
 
 module.exports = {
   loginUser,
@@ -295,8 +286,6 @@ module.exports = {
   unSeenNotifications,
   getApprovedDoctors,
 };
-
-
 
 // login and signup
 // const registerUser = asyncHandler(async (req, res) => {
@@ -339,7 +328,6 @@ module.exports = {
 //     throw new Error("invalid userdata");
 //   }
 // });
-
 
 //@desc Authenticate a user
 // @route POST /api/users/login

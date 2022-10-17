@@ -29,7 +29,7 @@ function Profile() {
   const params = useParams();
   const  user  = useSelector((state) => state.user);
  
-  const [doctor, setDoctor] = useState(null);
+  const [doctor,setDoctor] = useState(null);
   const [start,setStart]=useState(null)
   const [end,setEnd] = useState(null)
     
@@ -51,12 +51,12 @@ function Profile() {
     // formdata.append("userId", user?._id);
     // console.log(user?._id,"pppppppppppppppppppppppppppppppp");
    console.log( formdata,"formdata9999999999999999999999999999999999999999999");
-    try 
-    {
+    try{
       dispatch(showLoading());
       const response = await axios.post(
-        "/api/users/update-doctor-info",
+        "/api/doctor/update-doctor-info",
         formdata,
+        
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,

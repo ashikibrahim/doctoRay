@@ -31,6 +31,8 @@ function ApplyDoctor() {
 
   const token = user.token;
 
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -80,12 +82,13 @@ function ApplyDoctor() {
     <>
       <Header />
       <div style={{ paddingTop: "40px" }}>
-        <h1 className="page-title mt-5"> ApplyDoctor</h1>
+        {/* <h1 className="page-title mt-5"> </h1> */}
         <hr />
         <div>
           <form onSubmit={handleSubmit} allign="center">
             <Typography gutterBottom variant="h3" align="center">
               Apply Doctor
+              <hr/>
             </Typography>
             <Card>
               <CardContent>
@@ -98,6 +101,8 @@ function ApplyDoctor() {
                     label="firstName"
                     type="text"
                     name="firstName"
+                    // onChange={(e)=>(e.value)}
+                    // value=Dr
                   />
                 </FormControl>
                 <FormControl fullWidth sx={{ m: 1, width: "70ch", ml: 45 }}>
