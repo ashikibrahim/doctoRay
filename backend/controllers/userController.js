@@ -37,12 +37,12 @@ const registerUser = asyncHandler(async (req, res) => {
     await newuser.save();
     return res
       .status(200)
-      .send({ message: "User created successfully", success: true });
+      .send({ message: "user created successfully", success: true });
   } catch (error) {
     console.log(error);
     res
       .status(500)
-      .send({ message: "Error creating user", success: false, error });
+      .send({ message: "error creating user", success: false, error });
   }
 
   //check if user is created
