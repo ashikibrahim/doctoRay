@@ -245,7 +245,7 @@ const deleteAllNotifications = async (req, res) => {
     console.log(updatedUser, "updateduser.....");
     res.status(200).json({
       success: true,
-      message: "All notifications cleared",
+      message: "all notifications cleared",
       data: updatedUser,
     });
   } catch (error) {

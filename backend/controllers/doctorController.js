@@ -21,14 +21,14 @@ const doctorData = async (req, res) => {
 };
 
 const updateDoctorInfo = async(req, res) => {
-    console.log(req.body,"888888888888888888888");
+    console.log(req.body,"888888888888888889999999998888");
   try {
-    console.log(req.body,"mmmmmmmmmmmmmmmmmmmmmmmmmmmmm");
+    console.log(req.body,"mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm");
     // const result = await cloudinary.uploader.upload(req.file.path);
     const starttime = moment(req.body.start, ["HH:mm"]).format("hh:mm a");
     const endtime = moment(req.body.end, ["HH:mm"]).format("hh:mm a");
     const userid=req.user._id;
-      console.log(userid,"wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww");
+      console.log(userid,"wwwwwwwwwwwwwwwwwwwwwwwwwww");
     // const doctor = await Doctor.findOne({userId:req.body.userId})
     // console.log(doctor,"update doct 999999999999999999");
     const updatedDoctor = await Doctor.findByIdAndUpdate(
@@ -48,7 +48,7 @@ const updateDoctorInfo = async(req, res) => {
       }
     );
     res.status(200).json({
-      message: "Doctor info updated successfully",
+      message: "doctor info updated successfully",
       success: true,
       data: updatedDoctor,
     });
@@ -59,12 +59,12 @@ const updateDoctorInfo = async(req, res) => {
 };
 
 const getDoctorById = async (req, res) => {
-  console.log(req.body.doctorId ,"body.docid0000000000000000000000000");
+  console.log(req.body.doctorId ,"body.docid00000000000000000000");
   try {
     const doctor = await Doctor.findOne({_id: req.body.doctorId });
-    console.log(doctor,"huuuuuuuuuuusjsuuuuuuuuuuuuuuuuuuuuuuu");
+    console.log(doctor,"huuuuuuuuuuusjsuuuuuuuuuuuu");
     res.status(200).json({
-      message: "Doctor info fetched successfully",
+      message: "doctor info fetched successfully",
       success: true,
       data: doctor,
     });
