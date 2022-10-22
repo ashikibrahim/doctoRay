@@ -18,7 +18,6 @@ function Home() {
     try {
       dispatch(showLoading());
       const response = await axios.get("/api/users/get-all-approved-doctors");
-      console.log(response.data.data, "home fdgfdgfdgdgf");
       dispatch(hideLoading());
       if (response.data.success) {
         setDoctors(response.data.data);

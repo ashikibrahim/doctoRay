@@ -123,6 +123,7 @@ const getuserinfo = async (req, res) => {
 // @route POST /api/users/apply-doctor-account
 // @access Private
 const applyDoctorAccount = async (req, res) => {
+  console.log(req.body,"55555555555555555555555555555555555555555");
   //user id is taken from protect middleware
   const userid = req.user._id;
   console.log(req.user._id, "uuuuuuuuuuuuuuuuuuuuu");
@@ -225,7 +226,7 @@ const unSeenNotifications = async (req, res) => {
     });
   } catch (error) {
     return res.status(500).json({
-      message: "Error unseennotifications",
+      message: "Error unseenotifications",
       success: false,
       error,
     });

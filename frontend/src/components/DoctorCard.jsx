@@ -9,7 +9,7 @@ function DoctorCard({doctor1}) {
     
         <Card
         hoverable
-        onClick={() => navigate(`/book-appointment/${doctor1._id}`)}
+        onClick={() => navigate(`/doctor-details/${doctor1._id}`)}
         style={{
           width: 300,
           borderRadius:"8px",

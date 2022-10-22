@@ -20,46 +20,57 @@ const doctorData = async (req, res) => {
   }
 };
 
-const updateDoctorInfo = async(req, res) => {
-    console.log(req.body,"888888888888888889999999998888");
+const updateDoctorInfo = async(req,res) => {
+  console.log(req.body,"qqqqqqqqqqqqqqqqqqqqqqqqqq");
+  console.log(req.body.firstname,"sssssssssssssssssss");
+
+ console.log(req.user._id,"vvvvvvvvvvvvvvvvvvvvvvv");
   try {
-    console.log(req.body,"mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm");
-    // const result = await cloudinary.uploader.upload(req.file.path);
     const starttime = moment(req.body.start, ["HH:mm"]).format("hh:mm a");
     const endtime = moment(req.body.end, ["HH:mm"]).format("hh:mm a");
+    console.log(starttime,"staaaaaaaaaaaaaaaaaa");
+    console.log(endtime,"endddddddddddddd");
     const userid=req.user._id;
-      console.log(userid,"wwwwwwwwwwwwwwwwwwwwwwwwwww");
-    // const doctor = await Doctor.findOne({userId:req.body.userId})
-    // console.log(doctor,"update doct 999999999999999999");
-    const updatedDoctor = await Doctor.findByIdAndUpdate(
+    console.log(userid,"eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
+    const user = await User.findOne({_id:userid});
+    console.log(user._id,"zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz");
+      await Doctor.findOneAndUpdate(
       { userId:userid},
       {
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        phoneNumber: req.body.phoneNumber,
+        firstName: req.body.firstname,
+        lastName: req.body.lastname,
+        phoneNumber: req.body.phonenumber,
         address: req.body.address,
         specialization: req.body.specialization,
         experience: req.body.experience,
-        feePerConsultation: req.body.feePerConsultation,
-        image: result.url,
-        start: starttime,
-        end: endtime,
-        userId: userid,
+        feePerConsultation: req.body.fee,
+        // start: starttime,
+        // end: endtime,
       }
-    );
-    res.status(200).json({
-      message: "doctor info updated successfully",
-      success: true,
-      data: updatedDoctor,
-    });
+    ).then((response)=>{
+      console.log(response,"8888888888888888888888888888888888")
+      res.status(200).json({
+        message: "doctor info updated successfully",
+        success: true,
+        data:response
+      })
+    })
+    // console.log(updatedDoctor,"llllllllllllllllllllllllllllllllll");
+    // res.status(200).json({
+    //   message: "doctor info updated successfully",
+    //   success: true,
+    //   data: updatedDoctor,
+    // });
   } catch (error) {
+    console.log(error,"5555555555555555")
     res.status(500).send({ message: "invalid doctor", success: false, error });
-    // console.log(error,"error updating ....55555555555555555555555555555");
   }
+
 };
 
 const getDoctorById = async (req, res) => {
   console.log(req.body.doctorId ,"body.docid00000000000000000000");
+  
   try {
     const doctor = await Doctor.findOne({_id: req.body.doctorId });
     console.log(doctor,"huuuuuuuuuuusjsuuuuuuuuuuuu");
