@@ -17,6 +17,8 @@ import DoctorList from "./pages/Admin/DoctorList";
 import DoctorProfile from "./pages/Doctor/Profile";
 import BookAppointment from "./pages/User/BookAppointment"
 import DoctorDetails from "./pages/Doctor/DoctorDetails"
+import Checkout from "./pages/User/Checkout";
+
 
 function App() {
   const { loading } = useSelector((state) => state.alerts);
@@ -68,6 +70,20 @@ function App() {
             </ProtectedRoutes>
           }
         />
+        {/* <Route
+          path="/checkout/:doctorId"
+          element={
+            <ProtectedRoutes>
+              <Checkout />
+            </ProtectedRoutes>
+          }
+        /> */}
+          <Route path="/checkout/:appointmentId" element={
+          <ProtectedRoutes>
+            <Checkout />
+          </ProtectedRoutes>
+
+        } />
             <Route path="/notifications" element={<Notifications />} />
             <Route path="/admin/userslist" element={<UserList />} />
             <Route path="/admin/doctorslist" element={<DoctorList />} />

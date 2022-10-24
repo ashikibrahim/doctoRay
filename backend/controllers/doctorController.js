@@ -44,8 +44,8 @@ const updateDoctorInfo = async(req,res) => {
         specialization: req.body.specialization,
         experience: req.body.experience,
         feePerConsultation: req.body.fee,
-        // start: starttime,
-        // end: endtime,
+        start: starttime,
+        end: endtime,
       }
     ).then((response)=>{
       console.log(response,"8888888888888888888888888888888888")
@@ -55,12 +55,7 @@ const updateDoctorInfo = async(req,res) => {
         data:response
       })
     })
-    // console.log(updatedDoctor,"llllllllllllllllllllllllllllllllll");
-    // res.status(200).json({
-    //   message: "doctor info updated successfully",
-    //   success: true,
-    //   data: updatedDoctor,
-    // });
+ 
   } catch (error) {
     console.log(error,"5555555555555555")
     res.status(500).send({ message: "invalid doctor", success: false, error });

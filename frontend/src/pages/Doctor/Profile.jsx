@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import Header from "../../components/Header";
 import { useDispatch, useSelector } from "react-redux";
 import { showLoading, hideLoading } from "../../redux/alertsSlice";
@@ -22,28 +22,21 @@ import {
 } from "@mui/material";
 
 function Profile() {
-
   const [image, setImage] = useState();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
   const [doctor, setDoctor] = useState(null);
   const [start, setStart] = useState(null);
   const [end, setEnd] = useState(null);
-  const [firstname, setName] = useState(); 
-  const [lastname ,setLastname] = useState();
-  const [phonenumber ,setPhoneNumber] = useState();
-  const [address,setAddress] = useState();
-  const [specialization,setSpecialization] = useState();
-  const [experience,setExperience] = useState();
-  const [fee,setFee] = useState();
+  const [firstname, setName] = useState();
+  const [lastname, setLastname] = useState();
+  const [phonenumber, setPhoneNumber] = useState();
+  const [address, setAddress] = useState();
+  const [specialization, setSpecialization] = useState();
+  const [experience, setExperience] = useState();
+  const [fee, setFee] = useState();
   const navigate = useNavigate();
   const params = useParams();
-
-
-
-  // const token = user.token;
-
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -53,44 +46,41 @@ function Profile() {
     setAddress(e.target.address.value);
     setSpecialization(e.target.specialization.value);
     setExperience(e.target.experience.value);
-    setFee(e.target.feePerConsultation.value)
-    setStart(e.target.start.value)
-    setEnd(e.target.end.value)
-  
-      const obj={
-        firstname,
-        lastname,
-        phonenumber,
-        address,
-        specialization,
-        experience,
-        fee,
-        start,
-        end,
-      }
+    setFee(e.target.feePerConsultation.value);
+    setStart(e.target.start.value);
+    setEnd(e.target.end.value);
 
-    console.log("gggggggggggggggggggg",specialization)
-    
-    console.log( e.target.specialization.value,"ttttttttttttttttttttttttttttttttt")
-    
+    const obj = {
+      firstname,
+      lastname,
+      phonenumber,
+      address,
+      specialization,
+      experience,
+      fee,
+      start,
+      end,
+    };
 
+    console.log("gggggggggggggggggggg", specialization);
+
+    console.log(
+      e.target.specialization.value,
+      "ttttttttttttttttttttttttttttttttt"
+    );
 
     try {
       dispatch(showLoading());
-      const response = await axios.post(
-        "/api/doctor/update-doctor-info",
-        obj,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
+      const response = await axios.post("/api/doctor/update-doctor-info", obj, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
       console.log(response);
       dispatch(hideLoading());
       if (response.data.success) {
         toast.success(response.data.message);
-        console.log(response,"hhhhhhhhhhhhhhhhhhhhhhhh");
+        console.log(response, "hhhhhhhhhhhhhhhhhhhhhhhh");
         // navigate("/");
       } else {
         toast.error(response.data.message);
@@ -102,10 +92,10 @@ function Profile() {
   };
 
   const getData = async () => {
-
     try {
       dispatch(showLoading());
-      const response = await axios.post("/api/doctor/doctor-info",
+      const response = await axios.post(
+        "/api/doctor/doctor-info",
         {
           userId: params.userId,
         },
@@ -119,37 +109,27 @@ function Profile() {
       if (response.data.success) {
         toast.success(response.data.message);
         setDoctor(response.data.data);
-         const result = response.data.data;
+        const result = response.data.data;
         const convert_starttime = result.start.split(" ")[0];
         const convert_endtime = result.end.split(" ")[0];
         setStart(convert_starttime);
         setEnd(convert_endtime);
-
       } else {
-        toast.error("Errror")
+        toast.error("Errror");
       }
-
-    } catch (error) {
-
-    }
-
+    } catch (error) {}
   };
 
-
-  console.log(start, "mmmmmmmmmmmmmmmmmmmmmmm")
-
-
-
+  console.log(start, "mmmmmmmmmmmmmmmmmmmmmmm");
 
   useEffect(() => {
     getData();
   }, []);
 
-
   return (
     <>
       <Header />
-      <div className="container formdody" style={{ paddingTop: "100px", }}>
+      <div className="container formdody" style={{ paddingTop: "100px" }}>
         <form onSubmit={handleSubmit}>
           <Typography gutterBottom variant="h3" align="center">
             Edit Profile
@@ -181,7 +161,6 @@ function Profile() {
                   name="lastName"
                   onChange={(e) => setDoctor(e.value)}
                   value={doctor?.lastName}
-
                 />
               </FormControl>
               <FormControl fullWidth sx={{ m: 1, width: "70ch", ml: 45 }}>
@@ -279,7 +258,7 @@ function Profile() {
                   consulting-end
                 </FormLabel>
                 <OutlinedInput
-                  id="outlined-adornment-amount" 
+                  id="outlined-adornment-amount"
                   label="feePerConsultation"
                   type="time"
                   name="end"
@@ -317,4 +296,4 @@ function Profile() {
   );
 }
 
-export default Profile
+export default Profile;

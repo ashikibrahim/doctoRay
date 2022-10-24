@@ -3,9 +3,13 @@ const bcrypt = require("bcryptjs");
 const asyncHandler = require("express-async-handler");
 const User = require("../models/userModel");
 const Doctor = require("../models/doctorModel");
+const Appointment = require("../models/appointmentModel");
 const cloudinary = require("../utils/cloudinary");
 const { response } = require("express");
 const moment = require("moment");
+const Razorpay = require("razorpay");
+const crypto = require("crypto");
+
 
 //@desc Register new user
 // @route POST /api/users
@@ -123,7 +127,7 @@ const getuserinfo = async (req, res) => {
 // @route POST /api/users/apply-doctor-account
 // @access Private
 const applyDoctorAccount = async (req, res) => {
-  console.log(req.body,"55555555555555555555555555555555555555555");
+  console.log(req.body, "55555555555555555555555555555555555555555");
   //user id is taken from protect middleware
   const userid = req.user._id;
   console.log(req.user._id, "uuuuuuuuuuuuuuuuuuuuu");
@@ -277,6 +281,112 @@ const getApprovedDoctors = async (req, res) => {
   }
 };
 
+// check available time
+// post
+const checkAvailable = async (req, res) => {
+  try {
+    console.log(req.body.dateAndtime, "ppppppppppppppppppppppp");
+    const timeAnddate = moment(req.body.dateAndtime).format("llll");
+    console.log(timeAnddate, "qqqqqqqqqqqqqqqqqqq");
+
+    const doctorId = req.body.doctorId;
+
+    const appointment = await Appointment.find({
+      doctorId: doctorId,
+      dateAndtime: timeAnddate,
+    });
+    console.log(appointment, "33333333333333333333333333333");
+    if (appointment.length > 0) {
+      return res
+        .status(200)
+        .send({ message: "Appointments not available", success: false });
+    } else {
+      return res
+        .status(200)
+        .send({ message: "Appointments avaialable", success: true });
+    }
+  } catch (error) {
+    return res.status(401).send({
+      message: "error in check available",
+      success: false,
+    });
+  }
+};
+
+// check available time
+// post
+const bookAppointment = async (req, res) => {
+  console.log(req.body, "llllllllllllllllllllllllllllllllllllllll");
+  console.log(req.body.doctorInfo, "pppppppppppppppppppppppppppppp");
+  try {
+    req.body.dateAndtime = moment(req.body.dateAndtime).format("llll");
+
+    const newAppointment = new Appointment(req.body);
+    await newAppointment.save();
+
+    const user = await User.findOne({ _id: req.body.doctorInfo.userId });
+    user.unseenNotifications.push({
+      type: "new-appointment-request",
+      message: `A new appointment request has been made by ${req.body.userInfo.name}`,
+      onClickPath: "/doctor/appointments",
+    });
+    await user.save();
+    res
+      .status(200)
+      .send({
+        message: "Appointment booked successfully",
+        success: true,
+        data: newAppointment,
+      });
+  } catch (error) {
+    res
+      .status(500)
+      .send({ message: "Error booking appointment", success: false });
+  }
+};
+
+const appointmentData = async (req, res) => {
+  try {
+    const appointmentData = await Appointment.findOne({
+      _id: req.body.appointmentId,
+    });
+
+    res
+      .status(200)
+      .send({
+        message: " data fetched successfully",
+        success: true,
+        data: appointmentData,
+      });
+  } catch (error) {
+    res
+      .status(500)
+      .send({ message: "dont get appointment id", success: false, error });
+  }
+};
+
+const verifyPayment = async (req, res) => {
+  console.log(req.body, "lllllllllllllllllllllllll");
+  try {
+    const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
+      req.body;
+    const sign = razorpay_order_id + "|" + razorpay_payment_id;
+    const expectedSign = crypto
+      .createHmac("sha256", process.env.RAZORPAY_KEY)
+      .update(sign.toString())
+      .digest("hex");
+
+    if (razorpay_signature === expectedSign) {
+      return res.status(200).json({ message: "Payment verified successfully" });
+    } else {
+      return res.status(400).json({ message: "Invalid signature sent!" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Internal Server Error!" });
+    console.log(error);
+  }
+};
+
 module.exports = {
   loginUser,
   registerUser,
@@ -286,6 +396,10 @@ module.exports = {
   deleteAllNotifications,
   unSeenNotifications,
   getApprovedDoctors,
+  checkAvailable,
+  bookAppointment,
+  appointmentData,
+  verifyPayment,
 };
 
 // login and signup
