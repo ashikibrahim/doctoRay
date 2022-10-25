@@ -21,6 +21,7 @@ function Checkout() {
   const [data, setData] = useState();
   const [cod, setCod] = useState(false);
   const [online, setOnline] = useState(false);
+  const navigate = useNavigate();
 
   const setruecod = () => {
     setCod(true);
@@ -59,10 +60,10 @@ function Checkout() {
   const initPayment = (data) => {
     console.log(data.id, "hhhhhhhhhhhhhhh");
     const options = {
-      key: "rzp_test_84tvlHhdgoF507",
+      key: process.env.RAZORPAY_ID,
       amount: data.amount,
       currency: data.currency,
-      name: "aaaaa",
+      name: "doctoRay",
       description: "Test Transaction",
       image: "https://images-na.ssl-images-amazon.com/images/I/817tHNcyAgL.jpg",
       order_id: data.id,
@@ -70,9 +71,13 @@ function Checkout() {
         try {
           const verifyUrl = "/api/users/verify";
           const { data } = await axios.post(verifyUrl, response);
-          console.log(data);
+          console.log(data, "yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy");
+          if (data.success) {
+            navigate("/");
+            toast.success(data.message);
+          }
         } catch (error) {
-          console.log(error);
+          console.log(error, ";lllllllllllllllllllllllllllllllllllllllll");
         }
       },
       theme: {
@@ -83,7 +88,7 @@ function Checkout() {
     rzp1.open();
   };
 
-  const amount = data?.doctorInfo.feePerCunsultation;
+  const amount = data?.doctorInfo.feePerConsultation;
 
   const payment = async () => {
     if (online) {
@@ -106,6 +111,9 @@ function Checkout() {
       } catch (error) {}
     } else if (cod) {
       try {
+        console.log("cash kkkkkkkkkkkkkkkkkkkkkkkkkkk");
+        navigate("/");
+        toast.success(data.message);
       } catch (error) {}
     }
   };
@@ -309,9 +317,7 @@ function Checkout() {
               {/* <MDBBtn color="success" size="md" block onClick={payment}>
                 Proceed to payment
               </MDBBtn> */}
-              <button onClick={payment}>
-              Proceed to payment
-              </button>
+              <button onClick={payment}>Proceed to payment</button>
             </div>
           </MDBCol>
           <MDBCol md="7" lg="4" xl="4" offsetLg="1" offsetXl="2">
@@ -355,7 +361,10 @@ function Checkout() {
             </div> */}
               <hr />
               <div className="d-flex justify-content-between mt-2">
-                <span>Total </span> <span class="text-success">$85.00</span>
+                <span>Total </span>{" "}
+                <span class="text-success">
+                  {data?.doctorInfo.feePerConsultation}
+                </span>
               </div>
             </div>
           </MDBCol>

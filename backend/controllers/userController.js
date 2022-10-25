@@ -377,14 +377,55 @@ const verifyPayment = async (req, res) => {
       .digest("hex");
 
     if (razorpay_signature === expectedSign) {
-      return res.status(200).json({ message: "Payment verified successfully" });
+      return res.status(200).json({success: true,  message: "Payment verified successfully" });
     } else {
-      return res.status(400).json({ message: "Invalid signature sent!" });
+      return res.status(400).json({success: false, message: "Invalid signature sent!" });
     }
   } catch (error) {
     res.status(500).json({ message: "Internal Server Error!" });
     console.log(error);
   }
+};
+
+const checkout = async (req, res) => {
+  console.log(req.body)
+  try {
+
+    const appointmentData = await Appointment.findByIdAndUpdate(
+      {
+        _id: req.body.appointmentId
+      },
+      {
+        payment: "online"
+      }
+    )
+
+    const instance = new Razorpay({
+      key_id: process.env.RAZORPAY_ID,
+      key_secret: process.env.RAZORPAY_KEY,
+    });
+
+    const options = {
+      amount: req.body.amount * 100,
+      currency: "INR",
+      receipt: crypto.randomBytes(10).toString("hex"),
+    };
+
+    instance.orders.create(options, (error, order) => {
+      if (error) {
+        console.log(error);
+        return res.status(500).send({ message: "Something Went Wrong!" });
+      }
+      res.status(200).send({ data: order });
+    });
+
+
+  } catch (error) {
+
+    res.status(500).send({ message: "Internal Server Error!" });
+    console.log(error);
+  }
+
 };
 
 module.exports = {
@@ -400,6 +441,7 @@ module.exports = {
   bookAppointment,
   appointmentData,
   verifyPayment,
+  checkout,
 };
 
 // login and signup

@@ -15,10 +15,10 @@ import Notifications from "./pages/Notifications";
 import UserList from "./pages/Admin/UserList";
 import DoctorList from "./pages/Admin/DoctorList";
 import DoctorProfile from "./pages/Doctor/Profile";
-import BookAppointment from "./pages/User/BookAppointment"
-import DoctorDetails from "./pages/Doctor/DoctorDetails"
+import BookAppointment from "./pages/User/BookAppointment";
+import DoctorDetails from "./pages/Doctor/DoctorDetails";
 import Checkout from "./pages/User/Checkout";
-
+import Appointments from "./pages/Doctor/Appointments";
 
 function App() {
   const { loading } = useSelector((state) => state.alerts);
@@ -55,35 +55,38 @@ function App() {
               }
             />
             <Route
-          path="/doctor-details/:doctorId"
-          element={
-            <ProtectedRoutes>
-              <DoctorDetails />
-            </ProtectedRoutes>
-          }
-        />
+              path="/doctor-details/:doctorId"
+              element={
+                <ProtectedRoutes>
+                  <DoctorDetails />
+                </ProtectedRoutes>
+              }
+            />
             <Route
-          path="/book-appointment/:doctorId"
-          element={
-            <ProtectedRoutes>
-              <BookAppointment />
-            </ProtectedRoutes>
-          }
-        />
-        {/* <Route
-          path="/checkout/:doctorId"
-          element={
-            <ProtectedRoutes>
-              <Checkout />
-            </ProtectedRoutes>
-          }
-        /> */}
-          <Route path="/checkout/:appointmentId" element={
-          <ProtectedRoutes>
-            <Checkout />
-          </ProtectedRoutes>
-
-        } />
+              path="/book-appointment/:doctorId"
+              element={
+                <ProtectedRoutes>
+                  <BookAppointment />
+                </ProtectedRoutes>
+              }
+            />
+         
+            <Route
+              path="/checkout/:appointmentId"
+              element={
+                <ProtectedRoutes>
+                  <Checkout />
+                </ProtectedRoutes>
+              }
+            />
+            <Route
+              path="/doctor/appointments"
+              element={
+                <ProtectedRoutes>
+                  <Appointments />
+                </ProtectedRoutes>
+              }
+            />
             <Route path="/notifications" element={<Notifications />} />
             <Route path="/admin/userslist" element={<UserList />} />
             <Route path="/admin/doctorslist" element={<DoctorList />} />
