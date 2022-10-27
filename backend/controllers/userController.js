@@ -10,7 +10,6 @@ const moment = require("moment");
 const Razorpay = require("razorpay");
 const crypto = require("crypto");
 
-
 //@desc Register new user
 // @route POST /api/users
 // @access Public
@@ -331,13 +330,11 @@ const bookAppointment = async (req, res) => {
       onClickPath: "/doctor/appointments",
     });
     await user.save();
-    res
-      .status(200)
-      .send({
-        message: "Appointment booked successfully",
-        success: true,
-        data: newAppointment,
-      });
+    res.status(200).send({
+      message: "Appointment booked successfully",
+      success: true,
+      data: newAppointment,
+    });
   } catch (error) {
     res
       .status(500)
@@ -351,13 +348,11 @@ const appointmentData = async (req, res) => {
       _id: req.body.appointmentId,
     });
 
-    res
-      .status(200)
-      .send({
-        message: " data fetched successfully",
-        success: true,
-        data: appointmentData,
-      });
+    res.status(200).send({
+      message: " data fetched successfully",
+      success: true,
+      data: appointmentData,
+    });
   } catch (error) {
     res
       .status(500)
@@ -377,9 +372,13 @@ const verifyPayment = async (req, res) => {
       .digest("hex");
 
     if (razorpay_signature === expectedSign) {
-      return res.status(200).json({success: true,  message: "Payment verified successfully" });
+      return res
+        .status(200)
+        .json({ success: true, message: "Payment verified successfully" });
     } else {
-      return res.status(400).json({success: false, message: "Invalid signature sent!" });
+      return res
+        .status(400)
+        .json({ success: false, message: "Invalid signature sent!" });
     }
   } catch (error) {
     res.status(500).json({ message: "Internal Server Error!" });
@@ -388,17 +387,16 @@ const verifyPayment = async (req, res) => {
 };
 
 const checkout = async (req, res) => {
-  console.log(req.body)
+  console.log(req.body);
   try {
-
     const appointmentData = await Appointment.findByIdAndUpdate(
       {
-        _id: req.body.appointmentId
+        _id: req.body.appointmentId,
       },
       {
-        payment: "online"
+        payment: "online",
       }
-    )
+    );
 
     const instance = new Razorpay({
       key_id: process.env.RAZORPAY_ID,
@@ -418,14 +416,10 @@ const checkout = async (req, res) => {
       }
       res.status(200).send({ data: order });
     });
-
-
   } catch (error) {
-
     res.status(500).send({ message: "Internal Server Error!" });
     console.log(error);
   }
-
 };
 
 module.exports = {

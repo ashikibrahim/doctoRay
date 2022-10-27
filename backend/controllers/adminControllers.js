@@ -48,27 +48,29 @@ const changeDoctorStatus = async (req, res) => {
   try {
     const { doctorId, status } = req.body;
     const doctor = await Doctor.findByIdAndUpdate(doctorId, { status });
-    console.log(doctor,"doctorffffffffff");
+    console.log(doctor, "doctorffffffffff");
     const user = await User.findOne({ _id: doctor.userId });
-    console.log(user,"usertttttttt");
+    console.log(user, "usertttttttt");
     const unseenNotifications = user.unseenNotifications;
-    console.log(user.unseenNotifications,"unseen notifications changestatus22222");
+    console.log(
+      user.unseenNotifications,
+      "unseen notifications changestatus22222"
+    );
     unseenNotifications.push({
       type: "new-doctor-request-changed",
       message: `your doctor account has been ${status}`,
       onClickPath: "/notifications",
     });
-    user.isDoctor = status === "Approved" ? true: false;
+    user.isDoctor = status === "Approved" ? true : false;
     console.log(user.isDoctor);
-    console.log(user.isDoctor,"isdoctor ??????");
+    console.log(user.isDoctor, "isdoctor ??????");
     await user.save();
-    console.log(user,"user after doctor:true");
-    console.log(doctor,"doctor after doctor true");
+    console.log(user, "user after doctor:true");
+    console.log(doctor, "doctor after doctor true");
     res.status(200).json({
       message: "Doctor status updated successfully",
       success: true,
       data: doctor,
-      
     });
   } catch (error) {
     console.log(error);
@@ -84,14 +86,17 @@ const changeDoctorStatus = async (req, res) => {
 // block/unblock user
 const changeUserStatus = async (req, res) => {
   try {
-    const user = await User.findByIdAndUpdate({_id:req.body.userid},{ isBlock:req.body.status})
+    const user = await User.findByIdAndUpdate(
+      { _id: req.body.userid },
+      { isBlock: req.body.status }
+    );
 
     res.status(200).json({
-      message: ` ${user.name } "your account is" ${req.body.status}` , 
+      message: ` ${user.name} "your account is" ${req.body.status}`,
       success: true,
     });
   } catch (error) {
-    console.log(error,"change user status catch");
+    console.log(error, "change user status catch");
     res.status(400).send({
       message: "user not found",
       success: false,
@@ -99,10 +104,6 @@ const changeUserStatus = async (req, res) => {
     });
   }
 };
-
-
-
-
 
 module.exports = {
   getAllDoctors,

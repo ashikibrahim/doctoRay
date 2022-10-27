@@ -21,12 +21,12 @@ const userSchema = mongoose.Schema(
     },
     isBlock: {
       type: String,
-      default: "unBlock", 
-  },
-  isverifed: {
+      default: "unBlock",
+    },
+    isverifed: {
       type: Boolean,
       default: false,
-  },
+    },
     isAdmin: {
       type: Boolean,
       default: false,

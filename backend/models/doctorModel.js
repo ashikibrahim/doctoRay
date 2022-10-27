@@ -29,7 +29,7 @@ const doctorSchema = mongoose.Schema(
       type: Number,
     },
     start: {
-      type:String,
+      type: String,
     },
     end: {
       type: String,
@@ -38,9 +38,8 @@ const doctorSchema = mongoose.Schema(
       type: String,
       default: "pending",
     },
-    image:{
-      type:String,
-
+    image: {
+      type: String,
     },
   },
   {

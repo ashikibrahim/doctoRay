@@ -92,7 +92,9 @@ const getAppointments = async (req, res) => {
       data: appointments,
     });
   } catch (error) {
-    res.status(500).send({ message: "invalid appointments", success: false, error });
+    res
+      .status(500)
+      .send({ message: "invalid appointments", success: false, error });
   }
 };
 
