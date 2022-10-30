@@ -18,7 +18,8 @@ import DoctorProfile from "./pages/Doctor/Profile";
 import BookAppointment from "./pages/User/BookAppointment";
 import DoctorDetails from "./pages/Doctor/DoctorDetails";
 import Checkout from "./pages/User/Checkout";
-import Appointments from "./pages/Doctor/Appointments";
+import DoctorAppointments from "./pages/Doctor/Appointments";
+import UserAppointments from  "./pages/User/UserAppointments"
 
 function App() {
   const { loading } = useSelector((state) => state.alerts);
@@ -79,11 +80,19 @@ function App() {
                 </ProtectedRoutes>
               }
             />
+             <Route
+          path="/appointments"
+          element={
+            <ProtectedRoutes>
+              <UserAppointments />
+            </ProtectedRoutes>
+          }
+        />
             <Route
-              path="/doctor/appointments"
+              path="/doctor/appointments/:doctorId"
               element={
                 <ProtectedRoutes>
-                  <Appointments />
+                  <DoctorAppointments />
                 </ProtectedRoutes>
               }
             />

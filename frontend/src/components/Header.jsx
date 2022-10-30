@@ -176,27 +176,28 @@ const Header = () => {
 
   return (
     <React.Fragment>
-      <AppBar sx={{ background: "#7b0cfa" }}>
-        <Toolbar>
-          <VaccinesIcon />
+      <AppBar sx={{ background: "#ffff" }}>
+        <Toolbar>                                         
+         
           {isMatch ? (
             <>
-              <Typography sx={{ fontSize: "1.5rem", marginLeft: "10%" }}>
+              <Typography sx={{ fontSize: "1.5rem", marginLeft: "10%",color:"#1976D2"}}>
                 doctoRay
               </Typography>
               <DrawerComp />
             </>
           ) : (
             <>
+             <VaccinesIcon sx={{color:"#1976D2",width:"100px"}}/>
               <Tabs
-                sx={{ marginLeft: "100px" }}
-                textColor="#fffff"
+                sx={{ marginLeft: "100px",color:"#1976D2" }}
+                textColor="#14bef0"
                 value={value}
                 onChange={(e,value) => setValue(value)}
-                indicatorColor="secondary"
+                // indicatorColor="secondary"
               >
                 {menuToBeRendered.map((menu) => (
-                  <Tab  value={menu.value} label={menu.name} onClick={() => navigate(menu.path)} />
+                  <Tab  value={menu.value} label={menu.name} onClick={() => navigate(menu.path)} sx={{margin:"auto"}} />
                 ))}
 
                 <Tab value="one" label=''/>
@@ -214,10 +215,10 @@ const Header = () => {
                 </Button>
                   <Badge badgeContent={user?.unseenNotifications.length}color="error"
                    onClick={() => navigate("/notifications")}>
-                      <NotificationsIcon />
+                      <NotificationsIcon   sx={{ color:"#1976D2" }} />
                     </Badge>
                     <Link  to='/Profile'>
-                        <Typography sx={{color:"white",marginLeft:"10px"}}>{user?.name}</Typography>
+                        <Typography sx={{color:"1976D2",marginLeft:"10px"}}>{user?.name}</Typography>
                         </Link>
                   
                   </>

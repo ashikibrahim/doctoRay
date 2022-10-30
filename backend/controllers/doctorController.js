@@ -83,9 +83,11 @@ const getAppointments = async (req, res) => {
   console.log(userid, "uuuuuuuuuuuuuuuuuu");
   try {
     const doctor = await Doctor.findOne({ userId: userid });
+    console.log(doctor,"jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj");
     const appointments = await Appointment.find({ doctorId: doctor._id }).sort({
       _id: -1,
     });
+    console.log(appointments,"apppppppppppppppppppppppppppppppppppppppppppppppppppp");
     res.status(200).json({
       message: "appointments fetched successfully",
       success: true,

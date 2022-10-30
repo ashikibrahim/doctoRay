@@ -126,16 +126,16 @@ const getuserinfo = async (req, res) => {
 // @route POST /api/users/apply-doctor-account
 // @access Private
 const applyDoctorAccount = async (req, res) => {
-  console.log(req.body, "55555555555555555555555555555555555555555");
+  console.log(req.body);
   //user id is taken from protect middleware
   const userid = req.user._id;
-  console.log(req.user._id, "uuuuuuuuuuuuuuuuuuuuu");
+  console.log(req.user._id);
   try {
     const result = await cloudinary.uploader.upload(req.file.path);
     const starttime = moment(req.body.start, ["HH:mm"]).format("hh:mm a");
     const endtime = moment(req.body.end, ["HH:mm"]).format("hh:mm a");
 
-    console.log(result, "backend result111111111");
+    console.log(result);
     const newdoctor = new Doctor({
       firstName: req.body.firstName,
       lastName: req.body.lastName,
@@ -151,10 +151,6 @@ const applyDoctorAccount = async (req, res) => {
     });
 
     await newdoctor.save();
-    // res.status(201).json({
-    //   newdoctor,
-    //   success:true,
-    // })
     console.log(newdoctor, "new doctor save");
     const adminUser = await User.findOne({ isAdmin: true });
     // explanation  vd22 creates new entry takes fromdata and spreads to
@@ -422,6 +418,25 @@ const checkout = async (req, res) => {
   }
 };
 
+const userAppointments = async (req, res) => {
+  console.log(req.user._id,"oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
+  try {
+    const appointments = await Appointment.find({ userId: req.user._id});
+    res.status(200).send({
+      message: "Appointments fetched successfully",
+      success: true,
+      data: appointments,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      message: "Error fetching appointments",
+      success: false,
+      error,
+    });
+  }
+};
+
 module.exports = {
   loginUser,
   registerUser,
@@ -436,6 +451,7 @@ module.exports = {
   appointmentData,
   verifyPayment,
   checkout,
+  userAppointments,
 };
 
 // login and signup

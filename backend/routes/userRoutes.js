@@ -12,12 +12,12 @@ const {
   checkAvailable,
   bookAppointment,
   appointmentData,
-  verifyPayment,
+  verifyPayment,                               
   checkout,
+  userAppointments,
 } = require("../controllers/userController");
 const { protect } = require("../middleware/authMiddleware");
 const upload = require("../utils/multer");
-
 
 router.post("/register", registerUser);
 router.post("/login", loginUser);
@@ -37,4 +37,5 @@ router.post("/book-appointment", protect, bookAppointment);
 router.post("/get-appointment-details-by-id", protect, appointmentData);
 router.post("/checkout", checkout);
 router.post("/verify", verifyPayment);
+router.get("/get-appointments-by-user-id", protect, userAppointments);
 module.exports = router;

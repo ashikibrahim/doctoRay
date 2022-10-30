@@ -13,6 +13,6 @@ const upload = require("../utils/multer");
 router.post("/doctor-info", protect, doctorData);
 router.post("/update-doctor-info", protect, updateDoctorInfo);
 router.post("/get-doctor-info-by-id", protect, getDoctorById);
-router.get("/get-doctor-appointments", protect, getAppointments);
+router.get("/get-doctor-appoitments", protect, getAppointments);
 
 module.exports = router;

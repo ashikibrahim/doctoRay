@@ -4,7 +4,7 @@ const User = require("../models/userModel");
 
 const protect = asyncHandler(async (req, res, next) => {
   let token;
-  console.log(req.headers.authorization, "protect middleware AAAAAAAAAAAAA");
+  console.log(req.headers.authorization, "protect middleware");
 
   if (
     req.headers.authorization &&

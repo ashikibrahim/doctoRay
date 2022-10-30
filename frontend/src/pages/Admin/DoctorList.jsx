@@ -1,4 +1,3 @@
-
 import { Table } from "antd";
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -6,8 +5,8 @@ import { hideLoading, showLoading } from "../../redux/alertsSlice";
 import axios from "axios";
 import toast from "react-hot-toast";
 import Header from "../../components/Header";
-import Button from 'react-bootstrap/Button';
-import moment from "moment"
+import Button from "react-bootstrap/Button";
+import moment from "moment";
 
 function DoctorList() {
   const [doctors, setDoctors] = useState([]);
@@ -24,6 +23,7 @@ function DoctorList() {
       dispatch(hideLoading());
       if (response.data.success) {
         setDoctors(response.data.data);
+        
       }
     } catch (error) {
       dispatch(hideLoading());
@@ -52,6 +52,8 @@ function DoctorList() {
       dispatch(hideLoading());
     }
   };
+
+
   useEffect(() => {
     getDoctorsData();
   }, []);
@@ -74,12 +76,18 @@ function DoctorList() {
       title: "Image",
       dataIndex: "image",
 
-      render: (text, record) => <img alt={record.image} src={record.image} style={{ width: "150px", height: "70px", objectFit: "contain" }} />
-  },
+      render: (text, record) => (
+        <img
+          alt={record.image}
+          src={record.image}
+          style={{ width: "150px", height: "70px", objectFit: "contain" }}
+        />
+      ),
+    },
     {
       title: "Created At",
       dataIndex: "createdAt",
-      render: (record , text) => moment(record.createdAt).format("DD-MM-YYYY"),
+      render: (record, text) => moment(record.createdAt).format("DD-MM-YYYY"),
     },
     {
       title: "status",
@@ -91,16 +99,16 @@ function DoctorList() {
       render: (text, record) => (
         <div className="d-flex">
           {record.status === "pending" && (
-             <Button
-             variant="success"
-             onClick={() => changeDoctorStatus(record, "Approved")}
-             >
+            <Button
+              variant="success"
+              onClick={() => changeDoctorStatus(record, "Approved")}
+            >
               Approve
-             </Button>
+            </Button>
           )}
           {record.status === "Approved" && (
             <Button
-            variant="danger"
+              variant="danger"
               onClick={() => changeDoctorStatus(record, "blocked")}
             >
               {/* {" "} */}
@@ -109,7 +117,7 @@ function DoctorList() {
           )}
           {record.status === "blocked" && (
             <Button
-            variant="primary"
+              variant="primary"
               onClick={() => changeDoctorStatus(record, "unblocked")}
             >
               {/* {" "} */}
@@ -118,7 +126,7 @@ function DoctorList() {
           )}
           {record.status === "unblocked" && (
             <Button
-            variant="success"
+              variant="success"
               onClick={() => changeDoctorStatus(record, "Approved")}
             >
               {/* {" "} */}
